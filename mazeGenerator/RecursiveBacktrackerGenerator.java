@@ -13,6 +13,10 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
 		{
 			maze(maze, 4);
 		}
+		else if(maze.type == 1)
+		{
+			maze(maze, 4);
+		}
 		else if(maze.type == 2)
 		{
 			maze(maze, 6);
@@ -88,13 +92,13 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
 	//boolean to show if inside graph
 	public boolean inGraph(int x, int minV, int maxV, int y, int minE, int maxE, int type)
 	{
-		if(type == 0)
+		if(type == 2)
 		{
-			return x >= minV && x < maxV && y >= minE && y < maxE;
+			return x >= minV && x < maxV && y >= (x + 1) / 2 && y < maxE + (x + 1) / 2;
 		}
 		else
         {
-            return x >= minV && x < maxV && y >= (x + 1) / 2 && y < maxE + (x + 1) / 2;
+            return x >= minV && x < maxV && y >= minE && y < maxE;
         }
 	}
 	//get neighbouring cell
