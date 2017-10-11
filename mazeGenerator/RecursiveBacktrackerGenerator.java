@@ -67,13 +67,13 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
 	// choose random position
 	public int initPos(int maxsize)
 	{
-		Random rand = new Random();
-		return rand.nextInt(maxsize);
+		Random number = new Random();
+		return number.nextInt(maxsize);
 	}
 
 	//choose random direction
 	public int[] direction(int max){
-		Random rand = new Random();
+		Random number = new Random();
 		int array[] = new int[max];
 		for(int i = 0; i < max; i++)
 		{
@@ -81,7 +81,7 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
 		}
 		for(int i = 0; i < max; i++)
 		{
-			int value = i + rand.nextInt(max - i);
+			int value = i + number.nextInt(max - i);
 			int e = array[value];
 		        array[value] = array[i];
 		        array[i] = e;
