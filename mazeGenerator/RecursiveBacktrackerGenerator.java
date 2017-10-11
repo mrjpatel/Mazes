@@ -30,29 +30,35 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
 		Cell current = null;
 		boolean testNext = true;
 		boolean[][] visited = null;
-		int count = 0;
+        int count = 0;
+        //if maze = hex
 		if(maze.type == 2)
 		{
-			visited = new boolean[maze.sizeR][maze.sizeC + (maze.sizeC + 1) / 2];
+            visited = new boolean[maze.sizeR][maze.sizeC + (maze.sizeC + 1) / 2];
+            //do while loop to initialize current cell
             do
             {
                 current = maze.map[initPos(maze.sizeR)][initPos(maze.sizeC)];
             }while(current == null);
-		}
+        }
+        //if maze = normal/tunnel
 		else
 		{
 			visited = new boolean[maze.sizeR][maze.sizeC];
 			current = map[initPos(maze.sizeR)][initPos(maze.sizeC)];
-		}
+        }
+        //initialize cell neighbour with params
 		do
         {
             Cell neighbour = getNeighbour(map, current, maze, maze.sizeR, maze.sizeC, visited, maze.type);
+            //push to stack
             if(neighbour != null)
             {
                 visited[current.r][current.c] = true;
                 saved.push(current);
                 current = neighbour;
             }
+            //pop from stack
             else
             {
                 visited[current.r][current.c] = true;
@@ -157,6 +163,7 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
             int newC = current.c + maze.deltaC[move];
             if(inGraph(newR, 0, maze.sizeR, newC, 0, maze.sizeC, type))
             {
+                //if within boundary, and not visited then proceed
                 if(!visited[newR][newC])
                 {
                     neighbour = p[newR][newC];
