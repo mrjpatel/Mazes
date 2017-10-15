@@ -16,6 +16,7 @@ public class GrowingTreeGenerator implements MazeGenerator
 
 	
 	@Override
+	// Same as RecursiveBacktracker, but only choose between 2 maze types
 	public void generateMaze(Maze maze) 
 	{
 		if(maze.type == 0)
@@ -27,18 +28,21 @@ public class GrowingTreeGenerator implements MazeGenerator
 			maze(maze, 6);
 		}
 	}
-
+	// Actual method to generate maze
 	public void maze(Maze maze, int edges)
 	{
 		Cell current = null;
 		Cell map[][] = maze.map;
 		boolean visited[][] = null;
+		// Arraylist used here instead of stack 
 		ArrayList<Cell> withinCell = new ArrayList<Cell>();
+		// if maze is rectangular/normal
 		if(maze.type == 0)
 		{
 			visited = new boolean[maze.sizeR][maze.sizeC];
 			current = map[initPos(maze.sizeR)][initPos(maze.sizeC)];
 		}
+		// else if maze is hexagonal
 		else
 		{
 			visited = new boolean[maze.sizeR][maze.sizeC + (maze.sizeR + 1) / 2];
@@ -47,9 +51,11 @@ public class GrowingTreeGenerator implements MazeGenerator
 				current = maze.map[initPos(maze.sizeR)][initPos(maze.sizeC + (maze.sizeR + 1) / 2)];
 			}while(current == null);
 		}
+		// added current cell to ArrayList
 		withinCell.add(current);
 		do
 		{
+			// get neighbouring cell of current cell
 			Cell neighbour = getNeighbour(map, current, maze, maze.sizeR, maze.sizeC, visited, maze.type);
 			if(neighbour != null)
 			{
@@ -60,6 +66,7 @@ public class GrowingTreeGenerator implements MazeGenerator
 			else
 			{
 				visited[current.r][current.c] = true;
+				// remove cell from arraylist since neighbour is NULL
 				withinCell.remove(current);
 				if(!withinCell.isEmpty())
 				{
@@ -69,14 +76,14 @@ public class GrowingTreeGenerator implements MazeGenerator
 		}while(!withinCell.isEmpty());
 	}
 
-	//choose random position
+	// choose random position
 	public int initPos(int maxsize)
 	{
 		Random number = new Random();
 		return number.nextInt(maxsize);
 	}
 
-	//choose random direction
+	// choose random direction
 	public int[] direction(int max){
 		Random number = new Random();
 		int array[] = new int[max];
@@ -94,7 +101,7 @@ public class GrowingTreeGenerator implements MazeGenerator
 		return array;
 	}
 
-	//boolean to show if inside graph
+	// boolean to show if inside graph
 	public boolean inGraph(int x, int minV, int maxV, int y, int minE, int maxE, int type)
 	{
 		if(type == 2)
@@ -155,10 +162,11 @@ public class GrowingTreeGenerator implements MazeGenerator
 			int newC = current.c + maze.deltaC[move];
 			if(inGraph(newR, 0, maze.sizeR, newC, 0, maze.sizeC, type))
 			{
-				//if within boundary, and not visited then proceed
+				// if within boundary, and not visited then proceed
 				if(!visited[newR][newC])
 				{
 					neighbour = p[newR][newC];
+					// check if wall is present
 					neighbour.wall[maze.oppoDir[move]].present = false;
 					current.wall[move].present = false;
 					return neighbour;
