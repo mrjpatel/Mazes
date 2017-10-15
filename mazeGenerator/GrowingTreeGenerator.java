@@ -11,10 +11,7 @@ import java.util.HashSet;
 public class GrowingTreeGenerator implements MazeGenerator 
 {
 	// Growing tree maze generator. As it is very general, here we implement as "usually pick the most recent cell, but occasionally pick a random cell"
-	
 	double threshold = 0.1;
-
-	
 	@Override
 	// Same as RecursiveBacktracker, but only choose between 2 maze types
 	public void generateMaze(Maze maze) 
@@ -76,43 +73,7 @@ public class GrowingTreeGenerator implements MazeGenerator
 		}while(!withinCell.isEmpty());
 	}
 
-	// choose random position
-	public int initPos(int maxsize)
-	{
-		Random number = new Random();
-		return number.nextInt(maxsize);
-	}
 
-	// choose random direction
-	public int[] direction(int max){
-		Random number = new Random();
-		int array[] = new int[max];
-		for(int i = 0; i < max; i++)
-		{
-			array[i] = i;
-		}
-		for(int i = 0; i < max; i++)
-		{
-			int value = i + number.nextInt(max - i);
-			int e = array[value];
-		        array[value] = array[i];
-		        array[i] = e;
-		}
-		return array;
-	}
-
-	// boolean to show if inside graph
-	public boolean inGraph(int x, int minV, int maxV, int y, int minE, int maxE, int type)
-	{
-		if(type == 2)
-		{
-			return x >= minV && x < maxV && y >= (x + 1) / 2 && y < maxE + (x + 1) / 2;
-		}
-		else
-        {
-            return x >= minV && x < maxV && y >= minE && y < maxE;
-        }
-	}
 
 	public Cell getNeighbour(Cell p[][], Cell current, Maze maze, int sizeR, int sizeC, boolean visited[][], int type)
 	{
@@ -174,5 +135,43 @@ public class GrowingTreeGenerator implements MazeGenerator
 			}
 		}
 		return neighbour;
+	}
+		// choose random position
+	public int initPos(int maxsize)
+	{
+		Random number = new Random();
+		int i = number.nextInt(maxsize);
+		return i;
+	}
+
+	// choose random direction
+	public int[] direction(int max){
+		Random number = new Random();
+		int array[] = new int[max];
+		for(int i = 0; i < max; i++)
+		{
+			array[i] = i;
+		}
+		for(int i = 0; i < max; i++)
+		{
+			int value = i + number.nextInt(max - i);
+			int j = array[value];
+		        array[value] = array[i];
+		        array[i] = j;
+		}
+		return array;
+	}
+
+	// boolean to show if inside graph
+	public boolean inGraph(int x, int minV, int maxV, int y, int minE, int maxE, int type)
+	{
+		if(type == 2)
+		{
+			return x >= minV && x < maxV && y >= (x + 1) / 2 && y < maxE + (x + 1) / 2;
+		}
+		else
+        {
+            return x >= minV && x < maxV && y >= minE && y < maxE;
+        }
 	}
 }

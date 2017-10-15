@@ -29,7 +29,6 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
         Cell map[][] = maze.map;
 		Cell current = null;
 		boolean[][] visited = null;
-        int count = 0;
         // if maze = hex
 		if(maze.type == 2)
 		{
@@ -68,43 +67,6 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
                 }
             }
         }while(!saved.isEmpty());
-	}
-	// choose random position
-	public int initPos(int maxsize)
-	{
-		Random number = new Random();
-		return number.nextInt(maxsize);
-	}
-
-	// choose random direction
-	public int[] direction(int max){
-		Random number = new Random();
-		int array[] = new int[max];
-		for(int i = 0; i < max; i++)
-		{
-			array[i] = i;
-		}
-		for(int i = 0; i < max; i++)
-		{
-			int value = i + number.nextInt(max - i);
-			int e = array[value];
-		        array[value] = array[i];
-		        array[i] = e;
-		}
-		return array;
-	}
-
-	// boolean to show if inside graph
-	public boolean inGraph(int x, int minV, int maxV, int y, int minE, int maxE, int type)
-	{
-		if(type == 2)
-		{
-			return x >= minV && x < maxV && y >= (x + 1) / 2 && y < maxE + (x + 1) / 2;
-		}
-		else
-        {
-            return x >= minV && x < maxV && y >= minE && y < maxE;
-        }
 	}
 	// get neighbouring cell
 	public Cell getNeighbour(Cell p[][], Cell current, Maze maze, int sizeR, int sizeC, boolean visited[][], int type)
@@ -174,5 +136,43 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
             }
         }
 		return neighbour;
+    }
+    // choose random position
+	public int initPos(int maxsize)
+	{
+        Random number = new Random();
+        int i = number.nextInt(maxsize);
+		return i;
+	}
+
+	// choose random direction
+	public int[] direction(int max){
+		Random number = new Random();
+		int array[] = new int[max];
+		for(int i = 0; i < max; i++)
+		{
+			array[i] = i;
+		}
+		for(int i = 0; i < max; i++)
+		{
+			int value = i + number.nextInt(max - i);
+			int j = array[value];
+		        array[value] = array[i];
+		        array[i] = j;
+		}
+		return array;
+	}
+
+	// boolean to show if inside graph
+	public boolean inGraph(int x, int minV, int maxV, int y, int minE, int maxE, int type)
+	{
+		if(type == 2)
+		{
+			return x >= minV && x < maxV && y >= (x + 1) / 2 && y < maxE + (x + 1) / 2;
+		}
+		else
+        {
+            return x >= minV && x < maxV && y >= minE && y < maxE;
+        }
 	}
 } // end of class RecursiveBacktrackerGenerator
