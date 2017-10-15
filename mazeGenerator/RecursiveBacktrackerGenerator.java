@@ -28,7 +28,6 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
         Stack<Cell> saved = new Stack<Cell>(); // create stack to push and pop
         Cell map[][] = maze.map;
 		Cell current = null;
-		boolean testNext = true;
 		boolean[][] visited = null;
         int count = 0;
         //if maze = hex
