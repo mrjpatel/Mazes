@@ -46,7 +46,8 @@ public class GrowingTreeGenerator implements MazeGenerator
 			do
 			{
 				current = maze.map[initPos(maze.sizeR)][initPos(maze.sizeC + (maze.sizeR + 1) / 2)];
-			}while(current == null);
+			}
+			while(current == null);
 		}
 		// added current cell to ArrayList
 		withinCell.add(current);
@@ -70,66 +71,67 @@ public class GrowingTreeGenerator implements MazeGenerator
 					current = withinCell.get(initPos(withinCell.size()));
 				}
 			}
-		}while(!withinCell.isEmpty());
+		}
+		while(!withinCell.isEmpty());
 	}
 
 
 
-	public Cell getNeighbour(Cell p[][], Cell current, Maze maze, int sizeR, int sizeC, boolean visited[][], int type)
+	public Cell getNeighbour(Cell map[][], Cell current, Maze maze, int sizeR, int sizeC, boolean visited[][], int type)
 	{
 		Cell neighbour = null;
 		int direction[] = null;
-		int move = 0;
+		int movein = 0;
 		direction = direction(6);
 		for(int i = 0; i < 6; i++)
 		{
 			if(direction[i] == maze.NORTH)
 			{
-				move = direction[i];
+				movein = direction[i];
 			}
 			else if(direction[i] == maze.SOUTH)
 			{
-				move = direction[i];
+				movein = direction[i];
 			}
 			else if(direction[i] == maze.EAST)
 			{
-				move = direction[i];
+				movein = direction[i];
 			}
 			else if(direction[i] == maze.WEST)
 			{
-				move = direction[i];
+				movein = direction[i];
 			}
 
 			if(type == 2)
 			{
 				if(direction[i] == maze.NORTHEAST)
 				{
-					move = direction[i];
+					movein = direction[i];
 				}
 				else if(direction[i] == maze.NORTHWEST)
 				{
-					move = direction[i];
+					movein = direction[i];
 				}
 				else if(direction[i] == maze.SOUTHEAST)
 				{
-					move = direction[i];
+					movein = direction[i];
 				}
 				else if(direction[i] == maze.SOUTHWEST)
 				{
-					move = direction[i];
+					movein = direction[i];
 				}
 			}
-			int newR = current.r + maze.deltaR[move];
-			int newC = current.c + maze.deltaC[move];
+			int newR = current.r + maze.deltaR[movein];
+			int newC = current.c + maze.deltaC[movein];
 			if(inGraph(newR, 0, maze.sizeR, newC, 0, maze.sizeC, type))
 			{
 				// if within boundary, and not visited then proceed
 				if(!visited[newR][newC])
 				{
-					neighbour = p[newR][newC];
+					neighbour = map[newR][newC];
 					// check if wall is present
-					neighbour.wall[maze.oppoDir[move]].present = false;
-					current.wall[move].present = false;
+					neighbour.wall[maze.oppoDir[movein]].present = false;
+					current.wall[movein].present = false;
 					return neighbour;
 				}
 			}
@@ -145,8 +147,8 @@ public class GrowingTreeGenerator implements MazeGenerator
 	}
 
 	// choose random direction
-	public int[] direction(int max){
-		Random number = new Random();
+	public int[] direction(int max)
+	{
 		int array[] = new int[max];
 		for(int i = 0; i < max; i++)
 		{
@@ -154,6 +156,7 @@ public class GrowingTreeGenerator implements MazeGenerator
 		}
 		for(int i = 0; i < max; i++)
 		{
+			Random number = new Random();
 			int value = i + number.nextInt(max - i);
 			int j = array[value];
 		        array[value] = array[i];
