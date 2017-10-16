@@ -12,9 +12,11 @@ import java.util.EmptyStackException;
 
 public class WallFollowerSolver implements MazeSolver 
 {
+	// we use a stack here to save the solving path
 	Stack<Cell> solverPath = new Stack<Cell>();
 	Cell current;
 	Cell last;
+	// we use an arraylist to keep track of all the visited cells
 	ArrayList<Cell> listed = new ArrayList<Cell>();
 	@Override
 	public void solveMaze(Maze maze) {
