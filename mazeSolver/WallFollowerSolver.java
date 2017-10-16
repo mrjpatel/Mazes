@@ -24,8 +24,6 @@ public class WallFollowerSolver implements MazeSolver
 		listed.add(current);
 		solverPath.push(current);
 		maze.drawFtPrt(current);
-		
-
 		while(isSolved() == false)
 		{
 			if(!solverPath.isEmpty())
@@ -156,7 +154,7 @@ public class WallFollowerSolver implements MazeSolver
 	@Override
 	public int cellsExplored() {
 		// TODO Auto-generated method stub
-		return 0;
+		return listed.size();
 	} // end of cellsExplored()
 
 } // end of class WallFollowerSolver
