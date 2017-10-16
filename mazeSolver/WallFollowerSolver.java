@@ -19,16 +19,21 @@ public class WallFollowerSolver implements MazeSolver
 	@Override
 	public void solveMaze(Maze maze) {
 		// TODO Auto-generated method stub
+		// first declare entrance and exit cell
 		current = maze.entrance;
 		last = maze.exit;
-		listed.add(current);
+		// push current cell into stack
 		solverPath.push(current);
+		// add current cell to list of visited cells
+		listed.add(current);
 		maze.drawFtPrt(current);
 		while(isSolved() == false)
 		{
 			if(!solverPath.isEmpty())
 			{
+				// peek here to see current top of stack
 				Cell current = (Cell) solverPath.peek();
+				// declared cell neighbour for easier reference
 				Cell cNorth = current.neigh[maze.NORTH];
 				Cell cSouth = current.neigh[maze.SOUTH];
 				Cell cEast = current.neigh[maze.EAST];
@@ -37,8 +42,10 @@ public class WallFollowerSolver implements MazeSolver
 				Cell cNWest = current.neigh[maze.NORTHWEST];
 				Cell cSEast = current.neigh[maze.SOUTHEAST];
 				Cell cSWest = current.neigh[maze.SOUTHWEST];
+				// if maze is hex
 				if(maze.type == 2)
 				{
+					// if statement checks if cell is null, if the wall on the east is present, and if the cell is within the visited cells list
 					if(cEast != null && current.wall[maze.EAST].present == false && listed.contains(cEast) == false)
 					{
 						solverPath.push(cEast);
@@ -77,9 +84,11 @@ public class WallFollowerSolver implements MazeSolver
 					}
 					else
 					{
+						// if cell is in none of the above criteria, then it will be popped from the stack
 						solverPath.pop();
 					}
 				}
+				// if maze is normal
 				else
 				{
 					if(cEast != null && current.wall[maze.EAST].present == false && listed.contains(cEast) == false)
@@ -87,8 +96,10 @@ public class WallFollowerSolver implements MazeSolver
 						solverPath.push(cEast);
 						listed.add(cEast);
 						maze.drawFtPrt(cEast);
+						// if statement regarding the tunnels in normal maze.
 						if(cEast.tunnelTo != null)
 						{
+							// if cell to tunnelto is not null then it will be pushed onto the solver stack and visited cells list
 							solverPath.push(cEast.tunnelTo);
 							listed.add(cEast.tunnelTo);
 							maze.drawFtPrt(cEast.tunnelTo);
@@ -143,6 +154,7 @@ public class WallFollowerSolver implements MazeSolver
 	@Override
 	public boolean isSolved() {
 		// TODO Auto-generated method stub
+		// if solverPath contains the last cell or exit cell then return true
 		if(solverPath.contains(last))
 		{
 			return true;
@@ -154,6 +166,7 @@ public class WallFollowerSolver implements MazeSolver
 	@Override
 	public int cellsExplored() {
 		// TODO Auto-generated method stub
+		// simply returns size of list of visited cells
 		return listed.size();
 	} // end of cellsExplored()
 
