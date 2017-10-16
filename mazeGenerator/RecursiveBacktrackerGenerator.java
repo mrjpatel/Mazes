@@ -49,12 +49,14 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
         // initialize cell neighbour with params
 		do
         {
+            // getNeighbour retrieves the next cell taking into account the directions available
             Cell neighbour = getNeighbour(map, current, maze, maze.sizeR, maze.sizeC, visited, maze.type);
             // push to stack
             if(neighbour != null)
             {
                 visited[current.r][current.c] = true;
                 saved.push(current);
+                // set current cell as neighbour after pushing to stack
                 current = neighbour;
             }
             // pop from stack
@@ -64,6 +66,7 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
                 saved.pop();
                 if(!saved.isEmpty())
                 {
+                    // peek to check current top of the saved stack
                     current = saved.peek();
                 }
             }
@@ -84,6 +87,7 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
                 return current.tunnelTo;
             }
         }
+        // simple for loop to set the direction to move in
         for(int i = 0; i < 6; i++)
         {
             if(direction[i] == maze.NORTH)
@@ -102,7 +106,7 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
             {
                 movein = direction[i];
             }
-
+            // for hex maze
             if(type == 2)
             {
                 if(direction[i] == maze.NORTHEAST)

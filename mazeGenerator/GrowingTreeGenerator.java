@@ -1,7 +1,6 @@
 package mazeGenerator;
 
 import java.util.*;
-
 import maze.Maze;
 import maze.Cell;
 import java.util.ArrayList;
