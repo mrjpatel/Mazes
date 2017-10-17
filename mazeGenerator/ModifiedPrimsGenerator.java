@@ -101,13 +101,25 @@ public class ModifiedPrimsGenerator implements MazeGenerator {
 		for(int i = 0; i < maze.NUM_DIR; i++){
 			Cell selectedCell = cCell.neigh[i];
 			
-			if(selectedCell != null && selectedCell.r >= 0 && selectedCell.r < maze.sizeR && selectedCell.c >= 0 && 
+			if(maze.type == Maze.NORMAL){
+				if(selectedCell != null && selectedCell.r >= 0 && selectedCell.r < maze.sizeR && selectedCell.c >= 0 && 
 				selectedCell.c < maze.sizeC){
+					if(!frontierCell.contains(selectedCell)){
+						if(!newMaze.contains(selectedCell)){
+							frontierCell.add(selectedCell);
+						}
+					}
+				}
+			}
+			else{
+				if(selectedCell != null && selectedCell.r >= 0 && selectedCell.r < maze.sizeR && selectedCell.c >= (selectedCell.r +1)/2 && 
+				selectedCell.c < maze.sizeC+ (selectedCell.r + 1)/2){
 				if(!frontierCell.contains(selectedCell)){
 					if(!newMaze.contains(selectedCell)){
 						frontierCell.add(selectedCell);
 					}
 				}
+			}
 			}
 			
 		}
@@ -117,11 +129,21 @@ public class ModifiedPrimsGenerator implements MazeGenerator {
 	private ArrayList<Cell> getNeighbourCells (Maze maze, Cell selectedFrontier, ArrayList<Cell> newMaze, ArrayList<Cell> neighbourCell){
 		for(int i = 0; i < maze.NUM_DIR; i++){
 			Cell selectedNeighbour = selectedFrontier.neigh[i];
-			if(selectedNeighbour != null && selectedNeighbour.r >= 0 && selectedNeighbour.r < maze.sizeR && selectedNeighbour.c >= 0 && 
-				selectedNeighbour.c < maze.sizeC){
+			if(maze.type == Maze.NORMAL){
+				if(selectedNeighbour != null && selectedNeighbour.r >= 0 && selectedNeighbour.r < maze.sizeR && selectedNeighbour.c >= 0 && 
+					selectedNeighbour.c < maze.sizeC){
+					if(newMaze.contains(selectedNeighbour)){
+							neighbourCell.add(selectedNeighbour);
+					}
+				}
+			}
+			else{
+				if(selectedNeighbour != null && selectedNeighbour.r >= 0 && selectedNeighbour.r < maze.sizeR && selectedNeighbour.c >= (selectedNeighbour.r+1)/2 && 
+				selectedNeighbour.c < maze.sizeC+(selectedNeighbour.r+1)/2){
 				if(newMaze.contains(selectedNeighbour)){
 						neighbourCell.add(selectedNeighbour);
 				}
+			}
 			}
 		}
 		return neighbourCell;
@@ -130,13 +152,26 @@ public class ModifiedPrimsGenerator implements MazeGenerator {
 	private void removeWall (Maze maze, Cell selectedNeighbour, Cell selectedFrontier){
 		for(int i = 0; i < maze.NUM_DIR; i++){
 			Cell newcell = selectedNeighbour.neigh[i];
-			if(newcell != null && newcell.r >= 0 && newcell.r < maze.sizeR && newcell.c >= 0 && 
-			newcell.c < maze.sizeC && newcell == selectedFrontier){
-					// if(newcell == selectedFrontier){
-						System.out.println("Path Carving between: "+selectedFrontier.r+","+selectedFrontier.c+" & "+newcell.r+","+newcell.c);
-						selectedNeighbour.wall[i].present = false;
-					// }
+			if(maze.type == Maze.NORMAL){
+				if(newcell != null && newcell.r >= 0 && newcell.r < maze.sizeR && newcell.c >= 0 && 
+				newcell.c < maze.sizeC && newcell == selectedFrontier){
+						// if(newcell == selectedFrontier){
+							System.out.println("Path Carving between: "+selectedFrontier.r+","+selectedFrontier.c+" & "+newcell.r+","+newcell.c);
+							selectedNeighbour.wall[i].present = false;
+						// }
+				}
 			}
+			//HEX
+			else{
+				if(newcell != null && newcell.r >= 0 && newcell.r < maze.sizeR && newcell.c >= (newcell.r +1)/2 && 
+				newcell.c < maze.sizeC +(newcell.r +1)/2 && newcell == selectedFrontier){
+						// if(newcell == selectedFrontier){
+							System.out.println("Path Carving between: "+selectedFrontier.r+","+selectedFrontier.c+" & "+newcell.r+","+newcell.c);
+							selectedNeighbour.wall[i].present = false;
+						// }
+				}
+			}
+			
 		}
 		// return true;
 	}
