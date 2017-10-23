@@ -1,7 +1,7 @@
 # Mazes
 This project was a part of university assignment. Where we used different algorithms to genertae the square or hexagon mazes and solve it.
 
-##Algorithms used
+## Algorithms used
 - **Generate Mazes**
     - Prim's Algorithm
     - Recursive back tracking
